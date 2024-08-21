@@ -1,0 +1,12 @@
+node_modules/
+
+.env
+.env.*
+
+dist/
+coverage/
+.histoire/
+*.tsbuildinfo
+**/.vitepress/cache/
+**/.vitepress/.temp/
+.eslintcache

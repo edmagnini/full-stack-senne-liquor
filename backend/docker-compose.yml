@@ -1,0 +1,22 @@
+version: "3.7"
+services:
+  postgres:
+    image: postgis/postgis:13-master
+    ports:
+      - 5433:5432
+    environment:
+      - POSTGRES_USER=senne
+      - POSTGRES_PASSWORD=SomePass@
+      - POSTGRES_DB=liquor
+  app:
+      build: .
+      ports:
+        - "3003:3003"
+      depends_on:
+        - postgres
+      environment:
+        DB_HOST: postgres
+        DB_PORT: 5432
+        DB_USER: senne
+        DB_PASSWORD: SomePass@
+        DB_NAME: liquor

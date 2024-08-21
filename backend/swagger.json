@@ -1,0 +1,678 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Senne Liquor Application API",
+    "description": "API para gerenciamento de hospitais, médicos, chamados e usuários",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/usuario/login": {
+      "post": {
+        "summary": "Login User",
+        "tags": [
+          "Usuario"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Login"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string",
+                      "example": "Bearer token_string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid credentials",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/usuario/register": {
+      "post": {
+        "summary": "Register User",
+        "tags": [
+          "Usuario"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Register"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User created successfully"
+          },
+          "400": {
+            "description": "User already exists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/medico": {
+      "get": {
+        "summary": "Get Medico",
+        "tags": [
+          "Medico"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number for pagination",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "example": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Number of records per page",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "example": 30
+            }
+          },
+          {
+            "name": "cd_medico",
+            "in": "query",
+            "description": "Filter by medico code",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "1"
+            }
+          },
+          {
+            "name": "nm_medico",
+            "in": "query",
+            "description": "Filter by medico name",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "MEDICO 1"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Medico"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Medico not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/hospital": {
+      "get": {
+        "summary": "Get Hospital",
+        "tags": [
+          "Hospital"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number for pagination",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "example": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Number of records per page",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "example": 30
+            }
+          },
+          {
+            "name": "cd_hospital",
+            "in": "query",
+            "description": "Filter by hospital code",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "example": "1"
+            }
+          },
+          {
+            "name": "nm_hospital",
+            "in": "query",
+            "description": "Filter by hospital name",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "Hospital 1"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Hospital"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Hospital not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/chamado": {
+      "get": {
+        "summary": "Get Chamado",
+        "tags": [
+          "Chamado"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number for pagination",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "example": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Number of records per page",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "example": 30
+            }
+          },
+          {
+            "name": "nr_chamado",
+            "in": "query",
+            "description": "Filter by chamado number",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "example": "12345"
+            }
+          },
+          {
+            "name": "cd_hospital",
+            "in": "query",
+            "description": "Filter by hospital code",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "example": "1"
+            }
+          },
+          {
+            "name": "ie_tipo_chamado",
+            "in": "query",
+            "description": "Filter by tipo de chamado",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "urgente"
+            }
+          },
+          {
+            "name": "nm_paciente",
+            "in": "query",
+            "description": "Filter by patient name",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "John Doe"
+            }
+          },
+          {
+            "name": "ie_sexo",
+            "in": "query",
+            "description": "Filter by sexo",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "M"
+            }
+          },
+          {
+            "name": "ie_status_chamado",
+            "in": "query",
+            "description": "Filter by status do chamado",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "aberto"
+            }
+          },
+          {
+            "name": "cd_medico",
+            "in": "query",
+            "description": "Filter by medico code",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "example": "2"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Chamado"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Chamado not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/chamado/create": {
+      "post": {
+        "summary": "Create Chamado",
+        "tags": [
+          "Chamado"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewChamado"
+              },
+              "examples": {
+                "example-1": {
+                  "summary": "Exemplo de requisição para criar um chamado",
+                  "value": {
+                    "cd_hospital": "1",
+                    "ie_tipo_chamado": "emergencia",
+                    "nm_paciente": "John Doe",
+                    "ie_sexo": "M",
+                    "ie_status_chamado": "aberto",
+                    "cd_medico": "1"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Chamado created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/chamado/update": {
+      "post": {
+        "summary": "Update Chamado",
+        "tags": [
+          "Chamado"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateChamado"
+              },
+              "examples": {
+                "example-1": {
+                  "summary": "Exemplo de requisição para atualizar um chamado",
+                  "value": {
+                    "cd_hospital": "141109862",
+                    "cd_medico": "1"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Chamado atualizado successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Login": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "example@example.com"
+          },
+          "senha": {
+            "type": "string",
+            "example": "password123"
+          }
+        }
+      },
+      "Register": {
+        "type": "object",
+        "properties": {
+          "nm_usuario": {
+            "type": "string",
+            "example": "John Doe"
+          },
+          "ds_email": {
+            "type": "string",
+            "example": "john.doe@example.com"
+          },
+          "ds_senha": {
+            "type": "string",
+            "example": "password123"
+          }
+        }
+      },
+      "Medico": {
+        "type": "object",
+        "properties": {
+          "cd_medico": {
+            "type": "string",
+            "example": "1"
+          },
+          "nm_medico": {
+            "type": "string",
+            "example": "MEDICO 1"
+          }
+        }
+      },
+      "Hospital": {
+        "type": "object",
+        "properties": {
+          "cd_hospital": {
+            "type": "integer",
+            "example": 1
+          },
+          "nm_hospital": {
+            "type": "string",
+            "example": "Hospital 1"
+          }
+        }
+      },
+      "Chamado": {
+        "type": "object",
+        "properties": {
+          "nr_chamado": {
+            "type": "integer",
+            "example": "12345"
+          },
+          "cd_hospital": {
+            "type": "integer",
+            "example": 1
+          },
+          "ie_tipo_chamado": {
+            "type": "string",
+            "example": "urgente"
+          },
+          "nm_paciente": {
+            "type": "string",
+            "example": "John Doe"
+          },
+          "ie_sexo": {
+            "type": "string",
+            "example": "M"
+          },
+          "ie_status_chamado": {
+            "type": "string",
+            "example": "aberto"
+          },
+          "cd_medico": {
+            "type": "integer",
+            "example": "2"
+          }
+        }
+      },
+      "NewChamado": {
+        "type": "object",
+        "properties": {
+          "cd_hospital": {
+            "type": "integer",
+            "example": "1"
+          },
+          "ie_tipo_chamado": {
+            "type": "string",
+            "example": "emergencia"
+          },
+          "nm_paciente": {
+            "type": "string",
+            "example": "John Doe"
+          },
+          "ie_sexo": {
+            "type": "string",
+            "example": "M"
+          },
+          "ie_status_chamado": {
+            "type": "string",
+            "example": "aberto"
+          },
+          "cd_medico": {
+            "type": "integer",
+            "example": "1"
+          }
+        }
+      },
+      "UpdateChamado": {
+        "type": "object",
+        "properties": {
+          "nr_chamado": {
+            "type": "integer",
+            "example": "141109862"
+          },
+          "cd_medico": {
+            "type": "integer",
+            "example": "1"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
