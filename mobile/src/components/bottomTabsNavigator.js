@@ -17,7 +17,7 @@ function BottomTabsNavigator() {
 
     return (
         <Tab.Navigator
-            initialRouteName="Home"
+            initialRouteName="HomeScreen"
             screenOptions={({ route }) => ({
                 tabBarIcon: ({ focused, color, size }) => {
                     let iconName;

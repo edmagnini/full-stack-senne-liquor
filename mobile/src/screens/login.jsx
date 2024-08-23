@@ -26,7 +26,7 @@ export default function LoginScreen() {
             let response = await axios.post(`${apiUrl}/usuario/login`, body);
             await AsyncStorage.setItem("@senne:accessToken", response.data.accessToken);
             await AsyncStorage.setItem("@senne:refreshToken", response.data.refreshToken);
-            navigation.navigate('Home');
+            navigation.navigate('HomeTabs');
         } catch (error) {
             alert('Error details:', error);
         }
